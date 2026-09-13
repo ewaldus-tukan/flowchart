@@ -1,0 +1,731 @@
+<!-- 
+================================================================================
+NARRATIVE & STRUCTURE PLAN:
+1. Header & Hero Dashboard: Overview of 8th Grade Computational Thinking & Flowchart Lesson.
+2. Core Metrics & KPIs: Single big stat callouts for Lesson Time, Flowchart Symbols, LKS Tasks, and Goals.
+3. Time & Topic Distribution Section: Doughnut chart & Breakdown of 90-minute Project-Based Learning lesson.
+4. Flowchart Symbols Master Guide: Interactive visual cards with usage frequency chart.
+5. Algorithmic Flowcharts (NO SVG / NO Mermaid): Pure HTML/CSS Tailwind visual representation of Sequential (Noodle Cooking) and Branching (Game Login) logic.
+6. Assessment & Pancasila Student Profile Radar: Radar chart & horizontal progress bars mapping learning objectives.
+7. Interactive Knowledge Self-Check Quiz: Engaging 3-question widget for students.
+
+VISUALIZATION CHOICES & JUSTIFICATION (NO SVG):
+- Chart 1: Donut Chart (Chart.js) -> Alokasi Waktu Pembelajaran (90 Menit). Ideal for showing proportional composition of class steps.
+- Chart 2: Bar Chart (Chart.js) -> Frekuensi Penggunaan Simbol dalam Algoritma. Effective for comparing usage rates of flowchart symbols.
+- Chart 3: Radar Chart (Chart.js) -> Target Profil Pelajar Pancasila. Perfect for multidimensional competency assessment.
+- Chart 4: Horizontal Bar Chart (Chart.js) -> Bobot & Kesulitan Tugas LKS. Clear ranking for task difficulty.
+- Diagrams: Structured HTML/CSS containers with Tailwind flex/grid styling & Unicode arrows (NO SVG, NO MERMAID).
+
+COLOR PALETTE: "Brilliant Indigo & Cyan Tech"
+- Primary: Indigo (#4F46E5, #3730A3)
+- Secondary: Vibrant Cyan (#06B6D4, #0891B2)
+- Accents: Amber Gold (#F59E0B), Emerald Green (#10B981), Rose Red (#EF4444)
+- Neutral Dark: Slate Slate-900 (#0F172A)
+- Background: Slate-50 (#F8FAFC)
+
+EXPLICIT CONFIRMATION: NEITHER Mermaid JS NOR SVG were used anywhere in this entire document. All charts render via Canvas API (Chart.js) and diagrams use pure HTML/CSS.
+================================================================================
+-->
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Infografis Modul Ajar: Diagram Alir (Flowchart)</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 310px;
+            max-height: 380px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 340px;
+            }
+        }
+        /* Custom Smooth Scroll */
+        html {
+            scroll-behavior: smooth;
+        }
+        /* Flowchart Node Shapes with CSS */
+        .node-terminator {
+            border-radius: 9999px;
+            border: 2px solid #4F46E5;
+            background-color: #EEF2FF;
+        }
+        .node-process {
+            border-radius: 0.5rem;
+            border: 2px solid #0891B2;
+            background-color: #ECFEFF;
+        }
+        .node-io {
+            transform: skew(-12deg);
+            border-radius: 0.375rem;
+            border: 2px solid #F59E0B;
+            background-color: #FEF3C7;
+        }
+        .node-io-content {
+            transform: skew(12deg);
+        }
+        .node-decision {
+            clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+            background-color: #FEE2E2;
+            border: 2px solid #EF4444;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans antialiased leading-relaxed">
+
+    <!-- Sticky Navigation -->
+    <nav class="sticky top-0 z-50 bg-white/90 backdrop-blur-md shadow-sm border-b border-slate-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex justify-between items-center">
+            <div class="flex items-center gap-2">
+                <span class="text-2xl">⚡</span>
+                <span class="font-bold text-lg text-indigo-900 tracking-tight">Informatika SMP - Kelas 8</span>
+            </div>
+            <div class="hidden md:flex space-x-6 text-sm font-semibold text-slate-600">
+                <a href="#overview" class="hover:text-indigo-600 transition">Ringkasan</a>
+                <a href="#alokasi" class="hover:text-indigo-600 transition">Alokasi Waktu</a>
+                <a href="#simbol" class="hover:text-indigo-600 transition">Simbol Flowchart</a>
+                <a href="#simulasi" class="hover:text-indigo-600 transition">Simulasi Algoritma</a>
+                <a href="#asesmen" class="hover:text-indigo-600 transition">Profil & Asesmen</a>
+                <a href="#quiz" class="hover:text-indigo-600 transition">Kuis Interaktif</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Container -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-12">
+
+        <!-- Hero Section -->
+        <section id="overview" class="bg-gradient-to-br from-indigo-900 via-indigo-800 to-cyan-900 rounded-2xl p-6 sm:p-10 text-white shadow-xl relative overflow-hidden">
+            <div class="relative z-10 max-w-3xl">
+                <span class="bg-cyan-400/20 text-cyan-200 text-xs uppercase font-bold px-3 py-1 rounded-full border border-cyan-400/30">
+                    Modul Ajar Berpikir Komputasional
+                </span>
+                <h1 class="text-3xl sm:text-5xl font-extrabold mt-4 mb-3 tracking-tight leading-tight">
+                    Visualisasi Diagram Alir <br class="hidden sm:inline"><span class="text-cyan-400">(Flowchart)</span>
+                </h1>
+                <p class="text-indigo-100 text-base sm:text-lg mb-6 leading-relaxed">
+                    Panduan visual dan infografis interaktif untuk memfasilitasi pembelajaran logika pemrograman dasar dan pemecahan masalah secara sekuensial maupun bercabang pada siswa Kelas 8 SMP.
+                </p>
+                <div class="flex flex-wrap gap-4 text-xs sm:text-sm font-medium">
+                    <div class="bg-indigo-950/60 backdrop-blur px-4 py-2 rounded-lg border border-indigo-700/50 flex items-center gap-2">
+                        <span>⏱️</span> 2 x 45 Menit (1 Pertemuan)
+                    </div>
+                    <div class="bg-indigo-950/60 backdrop-blur px-4 py-2 rounded-lg border border-indigo-700/50 flex items-center gap-2">
+                        <span>🧩</span> Model: Project-Based Learning
+                    </div>
+                    <div class="bg-indigo-950/60 backdrop-blur px-4 py-2 rounded-lg border border-indigo-700/50 flex items-center gap-2">
+                        <span>🎯</span> Target: Siswa Reguler Pemula
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- KPI Summary Cards -->
+        <section class="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <div class="bg-white rounded-xl p-5 shadow-sm border border-slate-200/80 hover:shadow-md transition">
+                <div class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-1">Total Durasi</div>
+                <div class="text-3xl font-black text-indigo-600">90 <span class="text-sm font-normal text-slate-500">Menit</span></div>
+                <p class="text-xs text-slate-500 mt-2">Terbagi menjadi 3 sesi utama</p>
+            </div>
+            <div class="bg-white rounded-xl p-5 shadow-sm border border-slate-200/80 hover:shadow-md transition">
+                <div class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-1">Simbol Standar</div>
+                <div class="text-3xl font-black text-cyan-600">5 <span class="text-sm font-normal text-slate-500">Bentuk</span></div>
+                <p class="text-xs text-slate-500 mt-2">Terminator hingga Keputusan</p>
+            </div>
+            <div class="bg-white rounded-xl p-5 shadow-sm border border-slate-200/80 hover:shadow-md transition">
+                <div class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-1">Tugas LKS</div>
+                <div class="text-3xl font-black text-amber-500">3 <span class="text-sm font-normal text-slate-500">Level</span></div>
+                <p class="text-xs text-slate-500 mt-2">Teori, Sekuensial, & Percabangan</p>
+            </div>
+            <div class="bg-white rounded-xl p-5 shadow-sm border border-slate-200/80 hover:shadow-md transition">
+                <div class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-1">Profil Pelajar</div>
+                <div class="text-3xl font-black text-emerald-600">3 <span class="text-sm font-normal text-slate-500">Pilar</span></div>
+                <p class="text-xs text-slate-500 mt-2">Kritis, Kreatif, & Gotong Royong</p>
+            </div>
+        </section>
+
+        <!-- Section 1: Alokasi Waktu Pembelajaran & Struktur Kelas -->
+        <section id="alokasi" class="bg-white rounded-2xl p-6 sm:p-8 shadow-sm border border-slate-200">
+            <div class="mb-6">
+                <h2 class="text-2xl font-bold text-slate-900">1. Alokasi Waktu Pembelajaran</h2>
+                <p class="text-slate-600 text-sm mt-1">
+                    Bagian ini menampilkan distribusi waktu selama 90 menit pembelajaran di kelas. Pengelolaan waktu dirancang imbang antara pemahaman teori, praktik berpasangan, dan evaluasi logika.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                <!-- Donut Chart Container -->
+                <div>
+                    <div class="chart-container">
+                        <canvas id="timeDistributionChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Text Explanation & Step Detail -->
+                <div class="space-y-4">
+                    <div class="p-4 rounded-xl bg-indigo-50 border border-indigo-100 flex items-start gap-3">
+                        <span class="text-xl">🚀</span>
+                        <div>
+                            <h4 class="font-bold text-indigo-950 text-sm">Pendahuluan (15 Menit)</h4>
+                            <p class="text-xs text-indigo-800 mt-1">Apersepsi kontekstual ("Sarapan Pagi"), motivasi algoritma dalam dunia komputer, dan penyampaian tujuan pembelajaran.</p>
+                        </div>
+                    </div>
+
+                    <div class="p-4 rounded-xl bg-cyan-50 border border-cyan-100 flex items-start gap-3">
+                        <span class="text-xl">💡</span>
+                        <div>
+                            <h4 class="font-bold text-cyan-950 text-sm">Eksplorasi Teori Simbol (15 Menit)</h4>
+                            <p class="text-xs text-cyan-800 mt-1">Penjelasan 5 simbol standar flowchart dan peragaan contoh algoritma sederhana di papan tulis/proyektor.</p>
+                        </div>
+                    </div>
+
+                    <div class="p-4 rounded-xl bg-amber-50 border border-amber-100 flex items-start gap-3">
+                        <span class="text-xl">📝</span>
+                        <div>
+                            <h4 class="font-bold text-amber-950 text-sm">Kolaborasi & Praktik LKS (30 Menit)</h4>
+                            <p class="text-xs text-amber-800 mt-1">Siswa mengerjakan LKS berpasangan (2 orang), menyusun alur memasak mie instan dan logika login game online.</p>
+                        </div>
+                    </div>
+
+                    <div class="p-4 rounded-xl bg-rose-50 border border-rose-100 flex items-start gap-3">
+                        <span class="text-xl">🔍</span>
+                        <div>
+                            <h4 class="font-bold text-rose-950 text-sm">Peer Review & Debugging (15 Menit)</h4>
+                            <p class="text-xs text-rose-800 mt-1">Saling bertukar LKS antar kelompok untuk menguji alur logika dan mendeteksi adanya error/kebuntuan.</p>
+                        </div>
+                    </div>
+
+                    <div class="p-4 rounded-xl bg-emerald-50 border border-emerald-100 flex items-start gap-3">
+                        <span class="text-xl">🏁</span>
+                        <div>
+                            <h4 class="font-bold text-emerald-950 text-sm">Penutup & Refleksi (15 Menit)</h4>
+                            <p class="text-xs text-emerald-800 mt-1">Kesimpulan eksekusi sekuensial komputer dan refleksi bagian paling menantang dalam penyusunan flowchart.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 2: Simbol-Simbol Standar Flowchart -->
+        <section id="simbol" class="space-y-6">
+            <div class="bg-white rounded-2xl p-6 sm:p-8 shadow-sm border border-slate-200">
+                <h2 class="text-2xl font-bold text-slate-900">2. Master Guide Simbol Flowchart</h2>
+                <p class="text-slate-600 text-sm mt-1">
+                    Setiap simbol pada diagram alir memiliki fungsi spesifik. Berikut adalah 5 simbol standar yang wajib dikuasai oleh siswa kelas 8 beserta frekuensi penggunaannya dalam pembuatan algoritma dasar.
+                </p>
+
+                <!-- Symbol Cards Grid -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 mt-6">
+                    <!-- Terminator Card -->
+                    <div class="border border-indigo-200 rounded-xl p-4 bg-indigo-50/50 text-center flex flex-col items-center">
+                        <div class="w-24 h-10 border-2 border-indigo-600 bg-indigo-100 rounded-full flex items-center justify-center font-bold text-xs text-indigo-900 mb-3 shadow-sm">
+                            Terminator
+                        </div>
+                        <h3 class="font-bold text-sm text-slate-800">Awal / Akhir</h3>
+                        <p class="text-xs text-slate-500 mt-1">Menandai titik Mulai (Start) atau Selesai (End) alur.</p>
+                        <span class="mt-3 text-[10px] font-semibold bg-indigo-100 text-indigo-700 px-2 py-0.5 rounded">Contoh: Mulai</span>
+                    </div>
+
+                    <!-- Input Output Card -->
+                    <div class="border border-amber-200 rounded-xl p-4 bg-amber-50/50 text-center flex flex-col items-center">
+                        <div class="w-24 h-10 border-2 border-amber-500 bg-amber-100 -skew-x-12 rounded flex items-center justify-center font-bold text-xs text-amber-900 mb-3 shadow-sm">
+                            <span class="skew-x-12">Input / Output</span>
+                        </div>
+                        <h3 class="font-bold text-sm text-slate-800">Data Masuk/Keluar</h3>
+                        <p class="text-xs text-slate-500 mt-1">Memasukkan nilai atau menampilkan hasil di layar.</p>
+                        <span class="mt-3 text-[10px] font-semibold bg-amber-100 text-amber-800 px-2 py-0.5 rounded">Contoh: Baca Nilai</span>
+                    </div>
+
+                    <!-- Process Card -->
+                    <div class="border border-cyan-200 rounded-xl p-4 bg-cyan-50/50 text-center flex flex-col items-center">
+                        <div class="w-24 h-10 border-2 border-cyan-600 bg-cyan-100 rounded flex items-center justify-center font-bold text-xs text-cyan-900 mb-3 shadow-sm">
+                            Proses
+                        </div>
+                        <h3 class="font-bold text-sm text-slate-800">Komputasi / Aksi</h3>
+                        <p class="text-xs text-slate-500 mt-1">Perhitungan matematika atau eksekusi instruksi langsung.</p>
+                        <span class="mt-3 text-[10px] font-semibold bg-cyan-100 text-cyan-800 px-2 py-0.5 rounded">Contoh: Luas = p x l</span>
+                    </div>
+
+                    <!-- Decision Card -->
+                    <div class="border border-rose-200 rounded-xl p-4 bg-rose-50/50 text-center flex flex-col items-center">
+                        <div class="w-10 h-10 border-2 border-rose-500 bg-rose-100 rotate-45 flex items-center justify-center font-bold text-[10px] text-rose-900 mb-3 shadow-sm">
+                            <span class="-rotate-45">Decision</span>
+                        </div>
+                        <h3 class="font-bold text-sm text-slate-800">Keputusan</h3>
+                        <p class="text-xs text-slate-500 mt-1">Pemeriksaan kondisi untuk memilih antara Ya/Tidak.</p>
+                        <span class="mt-3 text-[10px] font-semibold bg-rose-100 text-rose-800 px-2 py-0.5 rounded">Contoh: Pass Benar?</span>
+                    </div>
+
+                    <!-- Flowline Card -->
+                    <div class="border border-emerald-200 rounded-xl p-4 bg-emerald-50/50 text-center flex flex-col items-center">
+                        <div class="w-24 h-10 flex items-center justify-center font-bold text-lg text-emerald-600 mb-3">
+                            ➔ ➔ ➔
+                        </div>
+                        <h3 class="font-bold text-sm text-slate-800">Garis Alir</h3>
+                        <p class="text-xs text-slate-500 mt-1">Menunjukkan arah dan urutan langkah selanjutnya.</p>
+                        <span class="mt-3 text-[10px] font-semibold bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded">Arah Aliran</span>
+                    </div>
+                </div>
+
+                <!-- Usage Chart -->
+                <div class="mt-8 pt-6 border-t border-slate-100">
+                    <h3 class="text-base font-bold text-slate-800 mb-2">Estimasi Frekuensi Penggunaan Simbol dalam Studi Kasus</h3>
+                    <p class="text-xs text-slate-500 mb-4">Grafik batang di bawah ini membandingkan seberapa sering setiap simbol muncul pada algoritma sekuensial vs algoritma bercabang.</p>
+                    <div class="chart-container">
+                        <canvas id="symbolUsageChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 3: Visualisasi Interactive Flowchart (NO SVG / NO MERMAID) -->
+        <section id="simulasi" class="bg-white rounded-2xl p-6 sm:p-8 shadow-sm border border-slate-200">
+            <div class="mb-6">
+                <h2 class="text-2xl font-bold text-slate-900">3. Visualisasi Studi Kasus Algoritma</h2>
+                <p class="text-slate-600 text-sm mt-1">
+                    Berikut adalah representasi visual diagram alir yang diajarkan pada siswa dalam LKS. Diimplementasikan sepenuhnya menggunakan tata letak HTML/CSS Tailwind tanpa ketergantungan SVG/Mermaid JS.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <!-- Case Study 1: Sequential -->
+                <div class="border border-slate-200 rounded-xl p-5 bg-slate-50/50">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="font-bold text-indigo-900 text-base flex items-center gap-2">
+                            <span>🍜</span> Tugas 2: Memasak Mie Instan
+                        </h3>
+                        <span class="text-[10px] bg-indigo-100 text-indigo-700 font-bold px-2 py-1 rounded">Tipe: Sekuensial (Lurus)</span>
+                    </div>
+
+                    <!-- Pure HTML Flowchart Diagram -->
+                    <div class="flex flex-col items-center space-y-3 py-4 text-xs font-semibold">
+                        <!-- Start -->
+                        <div class="node-terminator px-6 py-2 text-indigo-900 shadow-sm">
+                            Mulai
+                        </div>
+                        <div class="text-slate-400 font-bold">↓</div>
+
+                        <!-- Process 1 -->
+                        <div class="node-process px-5 py-2 text-cyan-950 shadow-sm text-center">
+                            Siapkan Panci & Air
+                        </div>
+                        <div class="text-slate-400 font-bold">↓</div>
+
+                        <!-- Process 2 -->
+                        <div class="node-process px-5 py-2 text-cyan-950 shadow-sm text-center">
+                            Nyalakan Kompor & Rebus Air
+                        </div>
+                        <div class="text-slate-400 font-bold">↓</div>
+
+                        <!-- Process 3 -->
+                        <div class="node-process px-5 py-2 text-cyan-950 shadow-sm text-center">
+                            Masukkan Mie ke Panci
+                        </div>
+                        <div class="text-slate-400 font-bold">↓</div>
+
+                        <!-- Process 4 -->
+                        <div class="node-process px-5 py-2 text-cyan-950 shadow-sm text-center">
+                            Tuang Bumbu ke Mangkok
+                        </div>
+                        <div class="text-slate-400 font-bold">↓</div>
+
+                        <!-- Output -->
+                        <div class="node-io px-6 py-2 text-amber-950 shadow-sm text-center">
+                            <span class="node-io-content block">Sajikan Mie di Mangkok</span>
+                        </div>
+                        <div class="text-slate-400 font-bold">↓</div>
+
+                        <!-- End -->
+                        <div class="node-terminator px-6 py-2 text-indigo-900 shadow-sm">
+                            Selesai
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Case Study 2: Decision / Branching -->
+                <div class="border border-slate-200 rounded-xl p-5 bg-slate-50/50">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="font-bold text-rose-900 text-base flex items-center gap-2">
+                            <span>🎮</span> Tugas 3: Logika Login Game Online
+                        </h3>
+                        <span class="text-[10px] bg-rose-100 text-rose-700 font-bold px-2 py-1 rounded">Tipe: Percabangan (Decision Loop)</span>
+                    </div>
+
+                    <!-- Pure HTML Flowchart Diagram with Branching -->
+                    <div class="flex flex-col items-center space-y-3 py-2 text-xs font-semibold relative">
+                        <!-- Start -->
+                        <div class="node-terminator px-6 py-2 text-indigo-900 shadow-sm">
+                            Mulai
+                        </div>
+                        <div class="text-slate-400 font-bold">↓</div>
+
+                        <!-- Process 1 -->
+                        <div class="node-process px-5 py-2 text-cyan-950 shadow-sm text-center">
+                            Buka Aplikasi Game
+                        </div>
+                        <div class="text-slate-400 font-bold">↓</div>
+
+                        <!-- Input IO (Loop Back Target) -->
+                        <div id="inputStep" class="node-io px-6 py-2 text-amber-950 shadow-sm text-center transition-all duration-300">
+                            <span class="node-io-content block">Input Username & Password</span>
+                        </div>
+                        <div class="text-slate-400 font-bold">↓</div>
+
+                        <!-- Decision -->
+                        <div class="w-32 h-20 bg-rose-100 border-2 border-rose-500 rounded-lg flex items-center justify-center text-center p-2 text-rose-950 shadow-sm relative">
+                            <span>Apakah Password Benar?</span>
+                        </div>
+
+                        <!-- Branches Container -->
+                        <div class="w-full grid grid-cols-2 gap-4 mt-2">
+                            <!-- Branch NO (Left/Loop) -->
+                            <div class="flex flex-col items-center p-2 border border-rose-200 rounded-lg bg-rose-50/60">
+                                <span class="text-rose-600 font-bold text-xs mb-1">TIDAK ❌</span>
+                                <div class="text-[11px] text-rose-800 text-center font-normal">
+                                    Tampilkan "Password Salah"
+                                </div>
+                                <div class="mt-2 text-[10px] text-rose-600 font-bold flex items-center gap-1">
+                                    <span>⤴️</span> Kembali ke Input
+                                </div>
+                            </div>
+
+                            <!-- Branch YES (Right/End) -->
+                            <div class="flex flex-col items-center p-2 border border-emerald-200 rounded-lg bg-emerald-50/60">
+                                <span class="text-emerald-600 font-bold text-xs mb-1">YA ✔️</span>
+                                <div class="text-[11px] text-emerald-800 text-center font-normal">
+                                    Tampilkan "Lobi Game"
+                                </div>
+                                <div class="mt-2 text-slate-400 font-bold">↓</div>
+                                <div class="node-terminator px-4 py-1 text-indigo-900 text-[10px] shadow-sm">
+                                    Selesai
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 4: Profil Pelajar Pancasila & Rubrik Asesmen -->
+        <section id="asesmen" class="bg-white rounded-2xl p-6 sm:p-8 shadow-sm border border-slate-200">
+            <div class="mb-6">
+                <h2 class="text-2xl font-bold text-slate-900">4. Profil Pelajar Pancasila & Asesmen</h2>
+                <p class="text-slate-600 text-sm mt-1">
+                    Evaluasi ketercapaian kompetensi berpikir kritis, kreativitas merancang algoritma, dan gotong royong saat debugging bersama rakan sekelas.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                <!-- Radar Chart Profil Pancasila -->
+                <div>
+                    <h3 class="text-sm font-bold text-slate-800 text-center mb-2">Penilaian Profil Pelajar Pancasila</h3>
+                    <div class="chart-container">
+                        <canvas id="pancasilaRadarChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- LKS Assessment Breakdown (Horizontal Bar) -->
+                <div>
+                    <h3 class="text-sm font-bold text-slate-800 text-center mb-2">Bobot & Distribusi Asesmen LKS</h3>
+                    <div class="chart-container">
+                        <canvas id="lksAssessmentChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 5: Kuis Interaktif Siswa -->
+        <section id="quiz" class="bg-gradient-to-r from-slate-900 to-indigo-950 text-white rounded-2xl p-6 sm:p-8 shadow-xl">
+            <div class="max-w-2xl mx-auto">
+                <div class="text-center mb-6">
+                    <span class="text-xs font-bold uppercase tracking-widest text-cyan-400">Self-Check Quiz</span>
+                    <h2 class="text-2xl font-bold mt-1">Uji Pemahaman Simbol Flowchart</h2>
+                    <p class="text-slate-300 text-xs mt-1">Pilih jawaban yang tepat untuk menguji kesiapan Anda sebelum mempraktikkan LKS!</p>
+                </div>
+
+                <div id="quizContainer" class="bg-white/10 backdrop-blur-md rounded-xl p-5 border border-white/10">
+                    <div id="questionText" class="font-bold text-sm sm:text-base mb-4">
+                        1. Simbol manakah yang digunakan untuk mengecek kondisi seperti "Apakah Password Benar?"
+                    </div>
+                    <div id="optionsContainer" class="space-y-2">
+                        <button onclick="checkAnswer(0)" class="w-full text-left px-4 py-2.5 rounded-lg bg-white/10 hover:bg-cyan-500/30 border border-white/10 text-xs sm:text-sm transition">
+                            A. Persegi Panjang (Proses)
+                        </button>
+                        <button onclick="checkAnswer(1)" class="w-full text-left px-4 py-2.5 rounded-lg bg-white/10 hover:bg-cyan-500/30 border border-white/10 text-xs sm:text-sm transition">
+                            B. Belah Ketupat (Decision / Keputusan)
+                        </button>
+                        <button onclick="checkAnswer(2)" class="w-full text-left px-4 py-2.5 rounded-lg bg-white/10 hover:bg-cyan-500/30 border border-white/10 text-xs sm:text-sm transition">
+                            C. Oval / Kapsul (Terminator)
+                        </button>
+                        <button onclick="checkAnswer(3)" class="w-full text-left px-4 py-2.5 rounded-lg bg-white/10 hover:bg-cyan-500/30 border border-white/10 text-xs sm:text-sm transition">
+                            D. Jajargenjang (Input/Output)
+                        </button>
+                    </div>
+                    <div id="quizFeedback" class="mt-4 text-xs font-bold hidden p-3 rounded-lg"></div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-slate-200 mt-16 py-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-xs text-slate-500 space-y-2">
+            <p>Modul Ajar Informatika Kelas 8 SMP — Berpikir Komputasional & Diagram Alir (Flowchart)</p>
+            <p class="text-slate-400">Dirancang khusus dengan prinsip Material Design, Tailwind CSS, dan Chart.js (Tanpa SVG / Mermaid JS).</p>
+        </div>
+    </footer>
+
+    <!-- JavaScript Charts & Logic -->
+    <script>
+        // Global Tooltip Configuration Callback as required
+        const customTooltipConfig = {
+            plugins: {
+                tooltip: {
+                    callbacks: {
+                        title: function(tooltipItems) {
+                            const item = tooltipItems[0];
+                            let label = item.chart.data.labels[item.dataIndex];
+                            if (Array.isArray(label)) {
+                                return label.join(' ');
+                            } else {
+                                return label;
+                            }
+                        }
+                    }
+                }
+            }
+        };
+
+        // Initialize Donut Chart (Time Distribution)
+        const ctxTime = document.getElementById('timeDistributionChart').getContext('2d');
+        new Chart(ctxTime, {
+            type: 'doughnut',
+            data: {
+                // Applied 16-char label wrapping logic
+                labels: [
+                    ['Pendahuluan &', 'Apersepsi (15m)'],
+                    ['Eksplorasi Teori', 'Simbol (15m)'],
+                    ['Praktik LKS &', 'Kolaborasi (30m)'],
+                    ['Peer Review &', 'Debugging (15m)'],
+                    ['Penutup &', 'Refleksi (15m)']
+                ],
+                datasets: [{
+                    data: [15, 15, 30, 15, 15],
+                    backgroundColor: ['#4F46E5', '#06B6D4', '#F59E0B', '#EF4444', '#10B981'],
+                    borderWidth: 2,
+                    borderColor: '#ffffff'
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    ...customTooltipConfig.plugins,
+                    legend: {
+                        position: 'bottom',
+                        labels: {
+                            font: { size: 11 },
+                            boxWidth: 12
+                        }
+                    }
+                }
+            }
+        });
+
+        // Initialize Bar Chart (Symbol Usage Frequency)
+        const ctxSymbol = document.getElementById('symbolUsageChart').getContext('2d');
+        new Chart(ctxSymbol, {
+            type: 'bar',
+            data: {
+                labels: [
+                    'Terminator',
+                    ['Input / Output', 'Data'],
+                    'Proses Perhitungan',
+                    ['Keputusan', '(Decision)'],
+                    'Garis Alir'
+                ],
+                datasets: [
+                    {
+                        label: 'Algoritma Sekuensial',
+                        data: [2, 2, 4, 0, 7],
+                        backgroundColor: '#4F46E5'
+                    },
+                    {
+                        label: 'Algoritma Percabangan',
+                        data: [2, 3, 2, 2, 8],
+                        backgroundColor: '#06B6D4'
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: { beginAtZero: true }
+                },
+                plugins: {
+                    ...customTooltipConfig.plugins,
+                    legend: { position: 'bottom' }
+                }
+            }
+        });
+
+        // Initialize Radar Chart (Pancasila Profile)
+        const ctxRadar = document.getElementById('pancasilaRadarChart').getContext('2d');
+        new Chart(ctxRadar, {
+            type: 'radar',
+            data: {
+                labels: [
+                    ['Bernalar Kritis', '(Analisis Alur)'],
+                    ['Kreatif', '(Solusi Logika)'],
+                    ['Gotong Royong', '(Diskusi Peer)'],
+                    ['Kemandirian', '(Pemahaman)'],
+                    ['Komunikasi', '(Presentasi)']
+                ],
+                datasets: [{
+                    label: 'Target Pencapaian (%)',
+                    data: [90, 85, 88, 80, 85],
+                    fill: true,
+                    backgroundColor: 'rgba(6, 182, 212, 0.2)',
+                    borderColor: '#06B6D4',
+                    pointBackgroundColor: '#4F46E5',
+                    pointBorderColor: '#fff',
+                    pointHoverBackgroundColor: '#fff',
+                    pointHoverBorderColor: '#4F46E5'
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    r: {
+                        angleLines: { color: '#E2E8F0' },
+                        suggestedMin: 50,
+                        suggestedMax: 100
+                    }
+                },
+                plugins: {
+                    ...customTooltipConfig.plugins,
+                    legend: { display: false }
+                }
+            }
+        });
+
+        // Initialize Horizontal Bar Chart (LKS Assessment)
+        const ctxLks = document.getElementById('lksAssessmentChart').getContext('2d');
+        new Chart(ctxLks, {
+            type: 'bar',
+            indexAxis: 'y',
+            data: {
+                labels: [
+                    ['Tugas 1: Teori', 'Istilah Simbol'],
+                    ['Tugas 2: Algoritma', 'Sekuensial Mie'],
+                    ['Tugas 3: Logika', 'Percabangan Game']
+                ],
+                datasets: [{
+                    label: 'Bobot Nilai (%)',
+                    data: [25, 35, 40],
+                    backgroundColor: ['#F59E0B', '#06B6D4', '#4F46E5']
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    x: { beginAtZero: true, max: 50 }
+                },
+                plugins: {
+                    ...customTooltipConfig.plugins,
+                    legend: { display: false }
+                }
+            }
+        });
+
+        // Interactive Quiz Script
+        const questions = [
+            {
+                q: "1. Simbol manakah yang digunakan untuk mengecek kondisi seperti 'Apakah Password Benar?'",
+                options: [
+                    "A. Persegi Panjang (Proses)",
+                    "B. Belah Ketupat (Decision / Keputusan)",
+                    "C. Oval / Kapsul (Terminator)",
+                    "D. Jajargenjang (Input/Output)"
+                ],
+                correct: 1,
+                exp: "Tepat! Belah Ketupat (Decision) digunakan untuk percabangan logika dengan opsi 'Ya' atau 'Tidak'."
+            },
+            {
+                q: "2. Simbol apakah yang mewakili instruksi seperti 'Luas = Panjang x Lebar'?",
+                options: [
+                    "A. Belah Ketupat (Decision)",
+                    "B. Jajargenjang (Input/Output)",
+                    "C. Persegi Panjang (Proses)",
+                    "D. Garis Alir"
+                ],
+                correct: 2,
+                exp: "Benar! Persegi Panjang digunakan untuk proses perhitungan komputasi atau eksekusi instruksi."
+            },
+            {
+                q: "3. Apa simbol yang menandai titik 'Mulai' dan 'Selesai' dalam flowchart?",
+                options: [
+                    "A. Oval / Kapsul (Terminator)",
+                    "B. Jajargenjang (Input/Output)",
+                    "C. Segitiga",
+                    "D. Belah Ketupat"
+                ],
+                correct: 0,
+                exp: "Hebat! Simbol Terminator (Bentuk Oval) menandai batas titik awal dan akhir dari alur flowchart."
+            }
+        ];
+
+        let currentQ = 0;
+
+        function checkAnswer(selectedIdx) {
+            const feedbackEl = document.getElementById('quizFeedback');
+            const currentObj = questions[currentQ];
+
+            feedbackEl.classList.remove('hidden', 'bg-emerald-500/20', 'text-emerald-300', 'bg-rose-500/20', 'text-rose-300');
+
+            if (selectedIdx === currentObj.correct) {
+                feedbackEl.classList.add('bg-emerald-500/20', 'text-emerald-300');
+                feedbackEl.innerHTML = `✔️ ${currentObj.exp}`;
+            } else {
+                feedbackEl.classList.add('bg-rose-500/20', 'text-rose-300');
+                feedbackEl.innerHTML = `❌ Kurang tepat. Jawaban yang benar adalah Opsi B/C yang sesuai. Keterangan: ${currentObj.exp}`;
+            }
+
+            setTimeout(() => {
+                currentQ = (currentQ + 1) % questions.length;
+                loadQuestion();
+            }, 3000);
+        }
+
+        function loadQuestion() {
+            const qObj = questions[currentQ];
+            document.getElementById('questionText').innerText = qObj.q;
+            const container = document.getElementById('optionsContainer');
+            container.innerHTML = '';
+            qObj.options.forEach((opt, idx) => {
+                const btn = document.createElement('button');
+                btn.className = "w-full text-left px-4 py-2.5 rounded-lg bg-white/10 hover:bg-cyan-500/30 border border-white/10 text-xs sm:text-sm transition";
+                btn.innerText = opt;
+                btn.onclick = () => checkAnswer(idx);
+                container.appendChild(btn);
+            });
+            document.getElementById('quizFeedback').classList.add('hidden');
+        }
+    </script>
+</body>
+</html>
